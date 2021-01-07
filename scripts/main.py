@@ -31,6 +31,19 @@ age_groups = {
 }
 
 
+def decide_measure(closed, opened):
+    if not closed or closed is None:
+        if not opened or opened is None:
+            return 0
+        else:
+            return 1
+    else:
+        if not opened or opened is None:
+            return 3
+        else:
+            return 2
+
+
 def handleNan(value):
     if math.isnan(value):
         return 0
@@ -141,15 +154,40 @@ def insert_age_group():
 def insert_state_measurements():
     try:
         f = pd.read_csv("../datasets/nyt-states-reopen-status-covid-19_dataset_nyt-states-reopen-status-covid-19.csv")
-        keep_col = ['state_abbreviation', 'state', 'opened_food_and_drink', 'closed_houses_of_worship', 'closed_food_and_drink', 'opened_retail', 'opened_outdoor_and_recreation', 'closed_outdoor_and_recreation', 'closed_entertainment', 'opened_industries', 'opened_entertainment', 'opened_personal_care', 'opened_houses_of_worship', 'population']
+        keep_col = ['state_abbreviation', 'state', 'opened_food_and_drink', 'closed_houses_of_worship',
+                    'closed_food_and_drink', 'opened_retail', 'opened_outdoor_and_recreation',
+                    'closed_outdoor_and_recreation', 'closed_entertainment', 'opened_industries',
+                    'opened_entertainment', 'opened_personal_care', 'opened_houses_of_worship', 'population']
         new_f = f[keep_col]
 
         cursor = connection.cursor()
         for row in new_f.itertuples():
+            measure_id = row[0]
+
             query = "INSERT INTO state (code, ISO, state_name, population) VALUES" \
                     "('{0}', 'USA', '{1}', {2})"
             cursor.execute(query.format(row[1], row[2], row[14]))
-        cursor.commit()
+            cursor.commit()
+
+            industry_measure = decide_measure(None, row[10])
+            personal_care_measure = decide_measure(None, row[12])
+            entertainment_measure = decide_measure(row[9], row[11])
+            outdoor_measure = decide_measure(row[8], row[7])
+            retail_measure = decide_measure(None, row[6])
+            worship_measure = decide_measure(row[4], row[13])
+            food_measure = decide_measure(row[5], row[3])
+            command = "INSERT INTO measures (measure_id, code, industry, personal_care, entertainment, " \
+                      "outdoor_recreation, retail, house_of_worship, food_drink) VALUES" \
+                      "({0}, '{1}', {2}, {3}, {4}, {5}, {6}, {7}, {8})"
+
+            cursor.execute(command.format(measure_id, row[1], industry_measure, personal_care_measure,
+                                          entertainment_measure, outdoor_measure, retail_measure, worship_measure,
+                                          food_measure))
+            cursor.commit()
+
+            command = "UPDATE state SET measure_id={0} WHERE code='{1}'"
+            cursor.execute(command.format(measure_id, row[1]))
+            cursor.commit()
     except:
         print("No new states inserted")
 
