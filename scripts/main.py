@@ -108,7 +108,8 @@ def insert_unemployment():
         for row in new_f.itertuples():
             query = "INSERT INTO unemployment (iso, unemployment_date, value) VALUES" \
                     "('{0}', '{1}', {2})"
-            cursor.execute(query.format(row[0], row[1], row[2]))
+            print(row[1], row[2]+"-01", row[3])
+            cursor.execute(query.format(row[1], row[2], row[3]))
         cursor.commit()
     except:
         print("No new unemployment records inserted")
