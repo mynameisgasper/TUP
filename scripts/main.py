@@ -267,7 +267,13 @@ def insert_county():
 
 def insert_hospital():
     try:
-        return
+        f = pd.read_csv("../datasets/usa-hospital-beds_dataset_usa-hospital-beds.csv")
+        keep_col = ['OBJECTID', 'FIPS', 'STATE_NAME', 'HOSPITAL_NAME', 'HOSPITAL_TYPE', 'HQ_ADDRESS', 'HQ_CITY', 'HQ_ZIP_CODE',
+                    'NUM_LICENSED_BEDS', 'NUM_STAFFED_BEDS', 'NUM_ICU_BEDS', 'ADULT_ICU_BEDS', 'PEDI_ICU_BEDS', 'BED_UTILIZATION',
+                    'Potential_Increase_In_Bed_Capac', 'AVG_VENTILATOR_USAGE', 'Y', 'X']
+        #id severity je za STATE_NAME ampak ga nimamo in bo prazen
+        new_f = f[keep_col]
+        new_f.to_csv("hospital.csv", index=False)
     except:
         print("No new hospitals inserted")
 
@@ -283,3 +289,4 @@ insert_age_group()
 insert_state_measurements()
 insert_by_age()
 insert_county()
+insert_hospital()
