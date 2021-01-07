@@ -98,10 +98,20 @@ def insert_severity():
     #new_f.to_csv("severity.csv", index=False)
 
 def insert_unemployment():
-    f = pd.read_csv("../datasets/STLABOUR_06012021210015887_1.csv")
-    keep_col = ['ISO', 'Number date', 'Value']
-    new_f = f[keep_col]
-    #new_f.to_csv("unemployment.csv", index=False)
+    try:
+        f = pd.read_csv("../datasets/STLABOUR_06012021210015887_1.csv")
+        keep_col = ['ISO', 'Number date', 'Value']
+        new_f = f[keep_col]
+        #new_f.to_csv("unemployment.csv", index=False)
+
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            query = "INSERT INTO unemployment (iso, unemployment_date, value) VALUES" \
+                    "('{0}', '{1}', {2})"
+            cursor.execute(query.format(row[0], row[1], row[2]))
+        cursor.commit()
+    except:
+        print("No new unemployment records inserted")
 
 
 def insert_age_group():
@@ -117,7 +127,7 @@ def insert_age_group():
 
 
 connection_string = 'DSN=Seminarska'
-#connection = pyodbc.connect(connection_string)
+connection = pyodbc.connect(connection_string)
 
 insert_continents()
 insert_countries()
