@@ -32,6 +32,7 @@ age_groups = {
 
 # built during creation
 states = {}
+states_inverse = {}
 
 
 def decide_measure(closed, opened):
@@ -192,6 +193,7 @@ def insert_state_measurements():
             cursor.execute(command.format(measure_id, row[1]))
 
             states[row[1]] = row[2]
+            states[row[2]] = row[1]
             cursor.commit()
     except:
         print("No new states inserted")
@@ -201,6 +203,7 @@ def insert_state_measurements():
         state_list = cursor.fetchall()
         for state in state_list:
             states[state[0]] = state[1]
+            states[state[1]] = state[0]
 
 
 def insert_by_age():
