@@ -12,8 +12,8 @@
 <a:Code>BULLSHIT</a:Code>
 <a:CreationDate>1610051670</a:CreationDate>
 <a:Creator>Gasper</a:Creator>
-<a:ModificationDate>1610052850</a:ModificationDate>
-<a:Modifier>Gasper</a:Modifier>
+<a:ModificationDate>1610059377</a:ModificationDate>
+<a:Modifier>Miha</a:Modifier>
 <a:History>ORG {678113E5-164F-40C1-A536-432E46B9FDEA}
 DAT 1610052850
 ATT FOPT</a:History>
@@ -89,7 +89,7 @@ GenScriptName6=
 GenScriptName7=
 GenScriptName8=
 GenScriptName9=
-GenPathName=C:\Users\Gašper\Desktop\
+GenPathName=D:\Documents\Education\University\Tehnologija Upravljanja Podatkov\Seminarska\schemas\
 GenSingleFile=Yes
 GenODBC=No
 GenCheckModel=Yes
@@ -2882,8 +2882,8 @@ Shadow=0
 <c:Symbols>
 <o:ReferenceSymbol Id="o6">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((-7982,10273), (8702,11804))</a:Rect>
-<a:ListOfPoints>((8702,10576),(-7982,10429))</a:ListOfPoints>
+<a:Rect>((-7982,10273), (8067,11752))</a:Rect>
+<a:ListOfPoints>((8067,10576),(-7982,10429))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2939,8 +2939,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o16">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((21493,16762), (34817,18270))</a:Rect>
-<a:ListOfPoints>((21493,17100),(34817,16889))</a:ListOfPoints>
+<a:Rect>((22141,16761), (35058,18216))</a:Rect>
+<a:ListOfPoints>((22141,17100),(34817,16889))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2958,8 +2958,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o19">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((21642,15830), (34967,17378))</a:Rect>
-<a:ListOfPoints>((34967,17039),(21642,17250))</a:ListOfPoints>
+<a:Rect>((22304,15876), (35283,17378))</a:Rect>
+<a:ListOfPoints>((34967,17039),(22304,17250))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2977,8 +2977,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o21">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((-674,15225), (18174,36197))</a:Rect>
-<a:ListOfPoints>((18174,15225),(-379,36197))</a:ListOfPoints>
+<a:Rect>((-591,15225), (18489,36197))</a:Rect>
+<a:ListOfPoints>((18489,15225),(-379,36197))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3091,8 +3091,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o36">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((13873,20250), (27747,35024))</a:Rect>
-<a:ListOfPoints>((20914,20250),(20733,35024))</a:ListOfPoints>
+<a:Rect>((14124,20250), (27998,35024))</a:Rect>
+<a:ListOfPoints>((21503,20250),(20733,35024))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3110,8 +3110,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o38">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((1075,-4874), (15849,7188))</a:Rect>
-<a:ListOfPoints>((8502,-4874),(8404,7188))</a:ListOfPoints>
+<a:Rect>((805,-4874), (15579,7188))</a:Rect>
+<a:ListOfPoints>((8502,-4874),(7739,7188))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3129,8 +3129,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o41">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((1225,-4724), (15999,7338))</a:Rect>
-<a:ListOfPoints>((8553,7338),(8651,-4724))</a:ListOfPoints>
+<a:Rect>((969,-4724), (15743,7338))</a:Rect>
+<a:ListOfPoints>((7903,7338),(8651,-4724))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3148,8 +3148,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o43">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((16402,-4127), (28852,5701))</a:Rect>
-<a:ListOfPoints>((22434,5701),(22748,-4127))</a:ListOfPoints>
+<a:Rect>((16687,-4127), (29137,5701))</a:Rect>
+<a:ListOfPoints>((23175,5701),(22748,-4127))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3243,8 +3243,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o58">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((23119,12313), (35793,13841))</a:Rect>
-<a:ListOfPoints>((24076,13575),(35793,13650))</a:ListOfPoints>
+<a:Rect>((23621,12363), (36295,13841))</a:Rect>
+<a:ListOfPoints>((24982,13575),(35793,13650))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3262,8 +3262,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:ReferenceSymbol Id="o60">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((23119,13535), (35943,15054))</a:Rect>
-<a:ListOfPoints>((35943,13800),(24225,13725))</a:ListOfPoints>
+<a:Rect>((23621,13534), (36295,15004))</a:Rect>
+<a:ListOfPoints>((35943,13800),(25146,13725))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3300,7 +3300,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:ReferenceSymbol>
 <o:TableSymbol Id="o7">
 <a:ModificationDate>1610052850</a:ModificationDate>
-<a:Rect>((5021,1787), (25053,25137))</a:Rect>
+<a:Rect>((4017,1787), (26057,25137))</a:Rect>
 <a:LineColor>11184640</a:LineColor>
 <a:FillColor>16777136</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3869,13 +3869,16 @@ DAT 1610033593</a:History>
 <a:Code>TESTS_UNIT</a:Code>
 <a:CreationDate>1610051699</a:CreationDate>
 <a:Creator>Gasper</a:Creator>
-<a:ModificationDate>1610051699</a:ModificationDate>
-<a:Modifier>Gasper</a:Modifier>
+<a:ModificationDate>1610059352</a:ModificationDate>
+<a:Modifier>Miha</a:Modifier>
 <a:History>ORG {349B3639-CDA5-4DB4-914F-5E122BB970EB}
 DAT 1610051700
 ORG {47D14A3A-07AC-4D81-9D00-C94949819D15}
-DAT 1610033593</a:History>
-<a:DataType>DECIMAL</a:DataType>
+DAT 1610033593
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VARCHAR(128)</a:DataType>
+<a:Length>128</a:Length>
 </o:Column>
 <o:Column Id="o96">
 <a:ObjectID>2D110A7A-CC35-431F-8A87-7E8CD7E6044E</a:ObjectID>
@@ -7741,7 +7744,7 @@ DAT 1610051700</a:History>
 <a:Creator>Gasper</a:Creator>
 <a:ModificationDate>1610051700</a:ModificationDate>
 <a:Modifier>Gasper</a:Modifier>
-<a:TargetModelURL>file:///C|/Users/Gašper/Desktop/CovidConceptual.cdm</a:TargetModelURL>
+<a:TargetModelURL>file:///D|/Documents/Education/University/Tehnologija Upravljanja Podatkov/Seminarska/schemas/CovidConceptual.cdm</a:TargetModelURL>
 <a:TargetModelID>678113E5-164F-40C1-A536-432E46B9FDEA</a:TargetModelID>
 <a:TargetModelClassID>1E597170-9350-11D1-AB3C-0020AF71E433</a:TargetModelClassID>
 <c:SessionShortcuts>

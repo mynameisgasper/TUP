@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     7. 01. 2021 22:00:37                         */
+/* Created on:     07/01/2021 23:42:58                          */
 /*==============================================================*/
 
 
@@ -221,7 +221,7 @@ ID_CONTINENT
 /* Table: COUNTRY                                               */
 /*==============================================================*/
 create table COUNTRY (
-   ISO                  CHAR(3)              not null,
+   ISO                  CHAR(16)             not null,
    ID_CONTINENT         INT4                 not null,
    COUNTRY_NAME         VARCHAR(32)          not null,
    POPULATION           INT4                 null,
@@ -301,7 +301,7 @@ create table COVID19 (
    NEW_TESTS_SMOOTHED_PER_THOUSAND DECIMAL              null,
    POSITIVE_RATE        DECIMAL              null,
    TESTS_PER_CASE       DECIMAL              null,
-   TESTS_UNIT           DECIMAL              null,
+   TESTS_UNIT           VARCHAR(128)         null,
    TOTAL_VACCINATIONS   INT4                 null,
    TOTAL_VACCINATIONS_PER_HUNDRED DECIMAL              null,
    STRINGENCY_INDEX     DECIMAL              null,

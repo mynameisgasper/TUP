@@ -1136,8 +1136,8 @@ Shadow=0</a:DisplayPreferences>
 <o:RelationshipSymbol Id="o8">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((-7982,9221), (8677,11314))</a:Rect>
-<a:ListOfPoints>((-7982,10429),(8677,10576))</a:ListOfPoints>
+<a:Rect>((-7982,9266), (6911,11315))</a:Rect>
+<a:ListOfPoints>((-7982,10429),(6911,10576))</a:ListOfPoints>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1196,8 +1196,8 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o18">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((21518,16581), (34817,18271))</a:Rect>
-<a:ListOfPoints>((21518,17100),(34817,16889))</a:ListOfPoints>
+<a:Rect>((23317,16581), (34817,18207))</a:Rect>
+<a:ListOfPoints>((23317,17100),(34817,16889))</a:ListOfPoints>
 <a:ArrowStyle>4625</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1216,8 +1216,8 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o21">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((-379,15225), (18186,36197))</a:Rect>
-<a:ListOfPoints>((18186,15225),(-379,36197))</a:ListOfPoints>
+<a:Rect>((-379,15225), (19060,36197))</a:Rect>
+<a:ListOfPoints>((19060,15225),(-379,36197))</a:ListOfPoints>
 <a:ArrowStyle>4881</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1316,8 +1316,8 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o34">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((17615,20250), (24065,35024))</a:Rect>
-<a:ListOfPoints>((20733,35024),(20937,20250))</a:ListOfPoints>
+<a:Rect>((18476,20250), (24926,35024))</a:Rect>
+<a:ListOfPoints>((20733,35024),(22575,20250))</a:ListOfPoints>
 <a:ArrowStyle>4371</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1336,8 +1336,8 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o36">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((5216,-4874), (11666,7188))</a:Rect>
-<a:ListOfPoints>((8513,-4874),(8378,7188))</a:ListOfPoints>
+<a:Rect>((4241,-4874), (10691,7188))</a:Rect>
+<a:ListOfPoints>((8513,-4874),(6529,7188))</a:ListOfPoints>
 <a:ArrowStyle>4369</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1356,8 +1356,8 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o39">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((19365,-4127), (25815,5701))</a:Rect>
-<a:ListOfPoints>((22748,-4127),(22463,5701))</a:ListOfPoints>
+<a:Rect>((20507,-4127), (26957,5701))</a:Rect>
+<a:ListOfPoints>((22748,-4127),(24525,5701))</a:ListOfPoints>
 <a:ArrowStyle>4371</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1436,8 +1436,8 @@ CARD 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o52">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((24111,12313), (35793,14025))</a:Rect>
-<a:ListOfPoints>((24111,13575),(35793,13650))</a:ListOfPoints>
+<a:Rect>((26631,12364), (35793,14026))</a:Rect>
+<a:ListOfPoints>((26631,13575),(35793,13650))</a:ListOfPoints>
 <a:ArrowStyle>4625</a:ArrowStyle>
 <a:LineColor>11184640</a:LineColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1476,7 +1476,7 @@ CARD 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o10">
 <a:CreationDate>1610033593</a:CreationDate>
 <a:ModificationDate>1610033593</a:ModificationDate>
-<a:Rect>((4326,4559), (25748,22365))</a:Rect>
+<a:Rect>((1352,4559), (28722,22365))</a:Rect>
 <a:LineColor>11184640</a:LineColor>
 <a:FillColor>16777136</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3934,11 +3934,14 @@ DAT 1610033593</a:History>
 <a:Code>TESTS_UNIT</a:Code>
 <a:CreationDate>1610033593</a:CreationDate>
 <a:Creator>Gasper</a:Creator>
-<a:ModificationDate>1610033593</a:ModificationDate>
-<a:Modifier>Gasper</a:Modifier>
+<a:ModificationDate>1610059343</a:ModificationDate>
+<a:Modifier>Miha</a:Modifier>
 <a:History>ORG {47D14A3A-07AC-4D81-9D00-C94949819D15}
-DAT 1610033593</a:History>
-<a:DataType>DC</a:DataType>
+DAT 1610033593
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA128</a:DataType>
+<a:Length>128</a:Length>
 </o:DataItem>
 <o:DataItem Id="o94">
 <a:ObjectID>E187087C-D0D3-4BC0-B938-FC94494B5BAE</a:ObjectID>
@@ -5113,7 +5116,7 @@ DAT 1610033593</a:History>
 <a:Creator>Gasper</a:Creator>
 <a:ModificationDate>1610051718</a:ModificationDate>
 <a:Modifier>Gasper</a:Modifier>
-<a:TargetModelURL>file:///C|/Users/Gašper/Desktop/CovidPhysical.pdm</a:TargetModelURL>
+<a:TargetModelURL>file:///D|/Documents/Education/University/Tehnologija Upravljanja Podatkov/Seminarska/schemas/CovidPhysical.pdm</a:TargetModelURL>
 <a:TargetModelID>5717239F-1B16-4A6A-9C5C-18F45BD84663</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
 <c:SessionShortcuts>
