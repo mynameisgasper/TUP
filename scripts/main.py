@@ -36,6 +36,15 @@ states_inverse = {}
 county = {}
 
 
+def transformGender(gender):
+    if gender == 'Male':
+        return 'M'
+    elif gender == 'Female':
+        return 'F'
+    else:
+        return 'U'
+
+
 def decide_measure(closed, opened):
     if not closed or closed is None:
         if not opened or opened is None:
@@ -208,18 +217,30 @@ def insert_state_measurements():
 
 
 def insert_by_age():
-    f = pd.read_csv("../datasets/covid-19-death-counts-sex-age-state_dataset_covid-19-death-counts-sex-age-state.csv")
-    keep_col = ['Data as of', 'State', 'Sex', 'Age group', 'COVID-19 Deaths', 'Total Deaths']
-    new_f = f[keep_col]
+    try:
+        f = pd.read_csv("../datasets/covid-19-death-counts-sex-age-state_dataset_covid-19-death-counts-sex-age-state.csv")
+        keep_col = ['Data as of', 'State', 'Sex', 'Age group', 'COVID-19 Deaths', 'Total Deaths']
+        new_f = f[keep_col]
 
-    cursor = connection.cursor()
-    for row in new_f.itertuples():
-        if row[2] not in ['United States', 'Puerto Rico']:
-            state = row[2]
-            sex = row[3]
-            age_group = row[4]
-            covid_deaths = row[5]
-            total_deaths = row[6]
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            if row[2] not in ['United States', 'Puerto Rico']:
+                state = states_inverse[row[2]]
+                sex = row[3]
+                age_group = get_age_group_id(row[4])
+                covid_deaths = handleNan(row[5])
+                total_deaths = handleNan(row[6])
+
+                if age_group is None and sex == 'All Sexes':
+                    query = "UPDATE state SET covid_deaths={0}, total_deaths={1} WHERE code='{2}'"
+                    cursor.execute(query.format(covid_deaths, total_deaths, state))
+                elif age_group is not None and sex != 'All Sexes':
+                    query = "INSERT INTO bygender (id_age_group, code, gender, report_date, covid_deaths_by_gender, total_deaths_by_gender) VALUES" \
+                            "({0}, '{1}', '{2}', '{3}', {4}, {5})"
+                    cursor.execute(query.format(age_group, state, transformGender(sex), row[1], covid_deaths, total_deaths))
+        cursor.commit()
+    except:
+        print("No new data by gender and age added")
 
 
 def insert_county():
@@ -246,9 +267,10 @@ def insert_county():
 
 def insert_hospital():
     try:
-    
+        return
     except:
         print("No new hospitals inserted")
+
 
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
