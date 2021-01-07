@@ -4885,18 +4885,18 @@ DAT 1610033593</a:History>
 </o:Column>
 <o:Column Id="o163">
 <a:ObjectID>E9A9C78B-FB46-48B4-9B4A-57B2B9D5A0D6</a:ObjectID>
-<a:Name>total_deaths
-
-8</a:Name>
-<a:Code>TOTAL_DEATHS____8</a:Code>
+<a:Name>total_deaths</a:Name>
+<a:Code>TOTAL_DEATHS</a:Code>
 <a:CreationDate>1610051699</a:CreationDate>
 <a:Creator>Gasper</a:Creator>
-<a:ModificationDate>1610051699</a:ModificationDate>
-<a:Modifier>Gasper</a:Modifier>
+<a:ModificationDate>1610061667</a:ModificationDate>
+<a:Modifier>Miha</a:Modifier>
 <a:History>ORG {E1718B0F-A438-458A-BDD4-2782798B2B9C}
 DAT 1610051700
 ORG {733215C6-0BDF-488E-9414-D75A46005BC9}
-DAT 1610033593</a:History>
+DAT 1610033593
+ATT NAME
+ATT CODE</a:History>
 <a:DataType>DECIMAL</a:DataType>
 </o:Column>
 <o:Column Id="o164">
