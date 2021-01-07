@@ -203,7 +203,7 @@ def insert_state_measurements():
         state_list = cursor.fetchall()
         for state in state_list:
             states[state[0]] = state[1]
-            states[state[1]] = state[0]
+            states_inverse[state[1]] = state[0]
 
 
 def insert_by_age():
@@ -214,7 +214,7 @@ def insert_by_age():
     cursor = connection.cursor()
     for row in new_f.itertuples():
         if row[2] not in ['United States', 'Puerto Rico']:
-            state_name = row[2]
+            state = row[2]
             sex = row[3]
             age_group = row[4]
             covid_deaths = row[5]
