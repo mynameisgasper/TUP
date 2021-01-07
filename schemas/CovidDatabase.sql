@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     7. 01. 2021 21:35:25                         */
+/* Created on:     7. 01. 2021 21:54:21                         */
 /*==============================================================*/
 
 
@@ -124,7 +124,7 @@ ID_AGE_GROUP
 /* Table: APPROVALRATING                                        */
 /*==============================================================*/
 create table APPROVALRATING (
-   ID_APPROVAL          NUMERIC              not null,
+   ID_APPROVAL          INT4                 not null,
    ID_RECORD            INT4                 null,
    APPROVAL_ESTIMATE    DECIMAL              null,
    APPROVAL_HIGH        DECIMAL              null,
@@ -188,7 +188,7 @@ CODE
 /* Table: CITY                                                  */
 /*==============================================================*/
 create table CITY (
-   ID_CITY              NUMERIC              not null,
+   ID_CITY              INT4                 not null,
    CITY_NAME            VARCHAR(64)          null,
    constraint PK_CITY primary key (ID_CITY)
 );
@@ -204,7 +204,7 @@ ID_CITY
 /* Table: CONTINENT                                             */
 /*==============================================================*/
 create table CONTINENT (
-   ID_CONTINENT         NUMERIC              not null,
+   ID_CONTINENT         INT4                 not null,
    CONTINENT_NAME       VARCHAR(16)          null,
    constraint PK_CONTINENT primary key (ID_CONTINENT)
 );
@@ -221,7 +221,7 @@ ID_CONTINENT
 /*==============================================================*/
 create table COUNTRY (
    ISO                  CHAR(3)              not null,
-   ID_CONTINENT         NUMERIC              not null,
+   ID_CONTINENT         INT4                 not null,
    COUNTRY_NAME         VARCHAR(32)          not null,
    POPULATION           INT4                 null,
    POPULATION_DENSITY   DECIMAL              null,
@@ -284,12 +284,12 @@ CODE
 /*==============================================================*/
 create table COVID19 (
    ID_RECORD            INT4                 not null,
-   ID_CITY              NUMERIC              null,
+   ID_CITY              INT4                 null,
    DATA_ID              INT4                 null,
    CODE                 CHAR(2)              null,
    FIPS                 INT4                 null,
    ISO                  CHAR(3)              not null,
-   ID_APPROVAL          NUMERIC              null,
+   ID_APPROVAL          INT4                 null,
    DAT_DATA_ID          INT4                 null,
    REPRODUCTION_RATE    DECIMAL              null,
    NEW_TESTS            INT4                 null,
