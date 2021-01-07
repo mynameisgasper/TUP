@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     7. 01. 2021 21:54:21                         */
+/* Created on:     7. 01. 2021 22:00:37                         */
 /*==============================================================*/
 
 
@@ -155,11 +155,11 @@ ID_RECORD
 create table BYGENDER (
    ID_AGE_GROUP         INT4                 not null,
    CODE                 CHAR(2)              not null,
-   GENDER               CHAR(1)              null,
+   GENDER               CHAR(1)              not null,
    REPORT_DATE          DATE                 null,
    COVID_DEATHS_BY_GENDER INT4                 null,
    TOTAL_DEATHS_BY_GENDER INT4                 null,
-   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE)
+   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE, GENDER)
 );
 
 /*==============================================================*/
@@ -167,7 +167,8 @@ create table BYGENDER (
 /*==============================================================*/
 create unique index BYGENDER_PK on BYGENDER (
 ID_AGE_GROUP,
-CODE
+CODE,
+GENDER
 );
 
 /*==============================================================*/

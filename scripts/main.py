@@ -244,6 +244,12 @@ def insert_county():
     except:
         print("No new counties inserted")
 
+def insert_hospital():
+    try:
+    
+    except:
+        print("No new hospitals inserted")
+
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
