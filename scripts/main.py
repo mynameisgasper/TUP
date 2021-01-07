@@ -12,6 +12,24 @@ continents = {
     5: 'South America'
 }
 
+age_groups = {
+    0: 'Under 1 year',
+    1: '0-17 years',
+    2: '1-4 years',
+    3: '5-14 years',
+    4: '15-24 years',
+    5: '18-29 years',
+    6: '25-34 years',
+    7: '30-49 years',
+    8: '35-44 years',
+    9: '45-54 years',
+    10: '50-64 years',
+    11: '55-64 years',
+    12: '65-74 years',
+    13: '75-84 years',
+    14: '85 years and over'
+}
+
 
 def handleNan(value):
     if math.isnan(value):
@@ -26,6 +44,12 @@ def get_continent_id(name):
             return x
 
 
+def get_age_group_id(name):
+    for x in age_groups:
+        if age_groups[x].lower() == name.lower():
+            return x
+
+
 def insert_continents():
     try:
         cursor = connection.cursor()
@@ -33,7 +57,6 @@ def insert_continents():
         for x in continents:
             command = "INSERT INTO continent (id_continent, continent_name) VALUES ({0}, '{1}')"
             cursor.execute(command.format(x, continents[x]))
-            print(command.format(x, continents[x]))
         cursor.commit()
     except:
         print("No new continents inserted")
@@ -81,6 +104,18 @@ def insert_unemployment():
     #new_f.to_csv("unemployment.csv", index=False)
 
 
+def insert_age_group():
+    try:
+        cursor = connection.cursor()
+
+        for x in age_groups:
+            command = "INSERT INTO agegroup (id_age_group, age_group) VALUES ({0}, '{1}')"
+            cursor.execute(command.format(x, age_groups[x]))
+        cursor.commit()
+    except:
+        print("No new age groups inserted")
+
+
 connection_string = 'DSN=Seminarska'
 #connection = pyodbc.connect(connection_string)
 
@@ -88,6 +123,7 @@ insert_continents()
 insert_countries()
 insert_severity()
 insert_unemployment()
+insert_age_group()
 
 
 
