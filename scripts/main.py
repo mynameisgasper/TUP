@@ -102,14 +102,15 @@ def insert_unemployment():
         f = pd.read_csv("../datasets/STLABOUR_06012021210015887_1.csv")
         keep_col = ['ISO', 'Number date', 'Value']
         new_f = f[keep_col]
-        #new_f.to_csv("unemployment.csv", index=False)
 
         cursor = connection.cursor()
         for row in new_f.itertuples():
-            query = "INSERT INTO unemployment (iso, unemployment_date, value) VALUES" \
-                    "('{0}', '{1}', {2})"
-            print(row[1], row[2]+"-01", row[3])
-            cursor.execute(query.format(row[1], row[2], row[3]))
+            try:
+                query = "INSERT INTO unemployment (iso, unemployment_date, value) VALUES" \
+                        "('{0}', '{1}', {2})"
+                cursor.execute(query.format(row[1], row[2] + "-01", row[3]))
+            except:
+                print(row[1] + " is not a country ISO code, skipped")
         cursor.commit()
     except:
         print("No new unemployment records inserted")
@@ -127,6 +128,22 @@ def insert_age_group():
         print("No new age groups inserted")
 
 
+def insert_state_measurements():
+    try:
+        f = pd.read_csv("../datasets/nyt-states-reopen-status-covid-19_dataset_nyt-states-reopen-status-covid-19.csv")
+        keep_col = ['state_abbreviation', 'state', 'opened_food_and_drink', 'closed_houses_of_worship', 'closed_food_and_drink', 'opened_retail', 'opened_outdoor_and_recreation', 'closed_outdoor_and_recreation', 'closed_entertainment', 'opened_industries', 'opened_entertainment', 'opened_personal_care', 'opened_houses_of_worship', 'population']
+        new_f = f[keep_col]
+
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            query = "INSERT INTO state (code, ISO, state_name, population) VALUES" \
+                    "('{0}', 'USA', '{1}', {2})"
+            cursor.execute(query.format(row[1], row[2], row[14]))
+        cursor.commit()
+    except:
+        print("No new states inserted")
+
+
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
@@ -135,6 +152,6 @@ insert_countries()
 insert_severity()
 insert_unemployment()
 insert_age_group()
-
+insert_state_measurements()
 
 
