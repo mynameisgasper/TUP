@@ -91,11 +91,21 @@ def insert_countries():
         print("No new countries inserted")
 
 def insert_severity():
-    f = pd.read_csv("../datasets/covid-19-yu-group_dataset_severity-index.csv")
-    keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_6-day',
-                'severity_7-day', 'latitude', 'longitude']
-    new_f = f[keep_col]
-    #new_f.to_csv("severity.csv", index=False)
+    #try:
+        f = pd.read_csv("../datasets/covid-19-yu-group_dataset_severity-index.csv")
+        keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_5-day', 'severity_6-day',
+                    'severity_7-day', 'latitude', 'longitude']
+        new_f = f[keep_col]
+        #new_f.to_csv("severity.csv", index=False)
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            query = "INSERT INTO severityprediction (severity_1day, severity_2day, severity_3day, severity_4day, severity_5day, severity_6day, severity_7day, lat_hospital, lon_hospital) VALUES" \
+                    "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})"
+            #cursor.execute(query.format(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        cursor.commit()
+
+    #except:
+       # print("No new severity records inserted")
 
 def insert_unemployment():
     try:
@@ -144,7 +154,7 @@ def insert_state_measurements():
         print("No new states inserted")
 
 
-connection_string = 'DSN=Seminarska'
+connection_string = 'DSN=test'
 connection = pyodbc.connect(connection_string)
 
 insert_continents()
