@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     7. 01. 2021 16:42:46                         */
+/* Created on:     7. 01. 2021 16:45:36                         */
 /*==============================================================*/
 
 
@@ -502,8 +502,8 @@ create table SEVERITYPREDICTION (
    SEVERITY_5DAY        INT2                 null,
    SEVERITY_6DAY        INT2                 null,
    SEVERITY_7DAY        INT2                 null,
-   LAT_HOSPITAL         CHAR(10)             null,
-   LON_HOSPITAL         CHAR(10)             null,
+   LAT_HOSPITAL         DECIMAL              null,
+   LON_HOSPITAL         DECIMAL              null,
    constraint PK_SEVERITYPREDICTION primary key (ID_SEVERITY)
 );
 
