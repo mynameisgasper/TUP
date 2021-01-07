@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     07/01/2021 23:42:58                          */
+/* Created on:     08/01/2021 00:43:40                          */
 /*==============================================================*/
 
 
@@ -42,8 +42,6 @@ drop index COUNTY_PK;
 
 drop table COUNTY;
 
-drop index DATAPERMILLION_FK;
-
 drop index RELATIONSHIP_19_FK;
 
 drop index RELATIONSHIP_17_FK;
@@ -59,10 +57,6 @@ drop index RELATIONSHIP_2_FK;
 drop index COVID19_PK;
 
 drop table COVID19;
-
-drop index DATAPERMILLION2_FK;
-
-drop index DATA2_FK;
 
 drop index DATA_PK;
 
@@ -155,11 +149,11 @@ ID_RECORD
 create table BYGENDER (
    ID_AGE_GROUP         INT4                 not null,
    CODE                 CHAR(2)              not null,
-   GENDER               CHAR(1)              not null,
+   GENDER               CHAR(1)              null,
    REPORT_DATE          DATE                 null,
    COVID_DEATHS_BY_GENDER INT4                 null,
    TOTAL_DEATHS_BY_GENDER INT4                 null,
-   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE, GENDER)
+   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE)
 );
 
 /*==============================================================*/
@@ -167,8 +161,7 @@ create table BYGENDER (
 /*==============================================================*/
 create unique index BYGENDER_PK on BYGENDER (
 ID_AGE_GROUP,
-CODE,
-GENDER
+CODE
 );
 
 /*==============================================================*/
@@ -286,12 +279,11 @@ CODE
 create table COVID19 (
    ID_RECORD            INT4                 not null,
    ID_CITY              INT4                 null,
-   DATA_ID              INT4                 null,
    CODE                 CHAR(2)              null,
    FIPS                 INT4                 null,
-   ISO                  CHAR(3)              not null,
+   ISO                  CHAR(16)             not null,
    ID_APPROVAL          INT4                 null,
-   DAT_DATA_ID          INT4                 null,
+   DATA_ID              INT4                 null,
    REPRODUCTION_RATE    DECIMAL              null,
    NEW_TESTS            INT4                 null,
    NEW_TESTS_PER_THOUSAND DECIMAL              null,
@@ -327,7 +319,7 @@ ISO
 /* Index: DATA_FK                                               */
 /*==============================================================*/
 create  index DATA_FK on COVID19 (
-DAT_DATA_ID
+DATA_ID
 );
 
 /*==============================================================*/
@@ -359,21 +351,12 @@ ID_APPROVAL
 );
 
 /*==============================================================*/
-/* Index: DATAPERMILLION_FK                                     */
-/*==============================================================*/
-create  index DATAPERMILLION_FK on COVID19 (
-DATA_ID
-);
-
-/*==============================================================*/
 /* Table: DATA                                                  */
 /*==============================================================*/
 create table DATA (
    DATA_ID              INT4                 not null,
-   ID_RECORD            INT4                 not null,
-   COV_ID_RECORD        INT4                 not null,
    NEW_CASES            DECIMAL              null,
-   TOTAL_DEATHS____8    DECIMAL              null,
+   TOTAL_DEATHS__       DECIMAL              null,
    NEW_CASES_SMOOTHED   DECIMAL              null,
    TOTAL_CASES          DECIMAL              null,
    NEW_DEATHS           DECIMAL              null,
@@ -390,20 +373,6 @@ create table DATA (
 /*==============================================================*/
 create unique index DATA_PK on DATA (
 DATA_ID
-);
-
-/*==============================================================*/
-/* Index: DATA2_FK                                              */
-/*==============================================================*/
-create  index DATA2_FK on DATA (
-COV_ID_RECORD
-);
-
-/*==============================================================*/
-/* Index: DATAPERMILLION2_FK                                    */
-/*==============================================================*/
-create  index DATAPERMILLION2_FK on DATA (
-ID_RECORD
 );
 
 /*==============================================================*/
@@ -527,7 +496,7 @@ HOSPITAL_ID
 /*==============================================================*/
 create table STATE (
    CODE                 CHAR(2)              not null,
-   ISO                  CHAR(3)              not null,
+   ISO                  CHAR(16)             not null,
    MEASURE_ID           INT4                 null,
    STATE_NAME           VARCHAR(32)          not null,
    POPULATION           INT4                 null,
@@ -562,7 +531,7 @@ MEASURE_ID
 /*==============================================================*/
 create table UNEMPLOYMENT (
    UNEMPLOYMENT_ID      INT4                 not null,
-   ISO                  CHAR(3)              null,
+   ISO                  CHAR(16)             null,
    UNEMPLOYMENT_DATE    DATE                 null,
    VALUE                DECIMAL              null,
    constraint PK_UNEMPLOYMENT primary key (UNEMPLOYMENT_ID)
@@ -608,12 +577,7 @@ alter table COUNTY
       on delete restrict on update restrict;
 
 alter table COVID19
-   add constraint FK_COVID19_DATA_DATA foreign key (DAT_DATA_ID)
-      references DATA (DATA_ID)
-      on delete restrict on update restrict;
-
-alter table COVID19
-   add constraint FK_COVID19_DATAPERMI_DATA foreign key (DATA_ID)
+   add constraint FK_COVID19_DATA_DATA foreign key (DATA_ID)
       references DATA (DATA_ID)
       on delete restrict on update restrict;
 
@@ -640,16 +604,6 @@ alter table COVID19
 alter table COVID19
    add constraint FK_COVID19_RELATIONS_STATE foreign key (CODE)
       references STATE (CODE)
-      on delete restrict on update restrict;
-
-alter table DATA
-   add constraint FK_DATA_DATA2_COVID19 foreign key (COV_ID_RECORD)
-      references COVID19 (ID_RECORD)
-      on delete restrict on update restrict;
-
-alter table DATA
-   add constraint FK_DATA_DATAPERMI_COVID19 foreign key (ID_RECORD)
-      references COVID19 (ID_RECORD)
       on delete restrict on update restrict;
 
 alter table HOSPITAL
