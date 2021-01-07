@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/01/2021 00:43:40                          */
+/* Created on:     08/01/2021 00:55:19                          */
 /*==============================================================*/
 
 
@@ -50,17 +50,11 @@ drop index RELATIONSHIP_15_FK;
 
 drop index RELATIONSHIP_7_FK;
 
-drop index DATA_FK;
-
 drop index RELATIONSHIP_2_FK;
 
 drop index COVID19_PK;
 
 drop table COVID19;
-
-drop index DATA_PK;
-
-drop table DATA;
 
 drop index RELATIONSHIP_16_FK;
 
@@ -283,7 +277,6 @@ create table COVID19 (
    FIPS                 INT4                 null,
    ISO                  CHAR(16)             not null,
    ID_APPROVAL          INT4                 null,
-   DATA_ID              INT4                 null,
    REPRODUCTION_RATE    DECIMAL              null,
    NEW_TESTS            INT4                 null,
    NEW_TESTS_PER_THOUSAND DECIMAL              null,
@@ -297,6 +290,16 @@ create table COVID19 (
    TOTAL_VACCINATIONS   INT4                 null,
    TOTAL_VACCINATIONS_PER_HUNDRED DECIMAL              null,
    STRINGENCY_INDEX     DECIMAL              null,
+   NEW_CASES            DECIMAL              null,
+   TOTAL_DEATHS__       DECIMAL              null,
+   NEW_CASES_SMOOTHED   DECIMAL              null,
+   TOTAL_CASES          DECIMAL              null,
+   NEW_DEATHS           DECIMAL              null,
+   NEW_DEATHS_SMOOTHED  DECIMAL              null,
+   ICU_PATIENTS         DECIMAL              null,
+   HOSP_PATIENTS        DECIMAL              null,
+   WEEKLY_ICU_ADMISSIONS DECIMAL              null,
+   WEEKLY_HOSP_ADMISSIONS DECIMAL              null,
    DATE                 DATE                 null,
    constraint PK_COVID19 primary key (ID_RECORD)
 );
@@ -313,13 +316,6 @@ ID_RECORD
 /*==============================================================*/
 create  index RELATIONSHIP_2_FK on COVID19 (
 ISO
-);
-
-/*==============================================================*/
-/* Index: DATA_FK                                               */
-/*==============================================================*/
-create  index DATA_FK on COVID19 (
-DATA_ID
 );
 
 /*==============================================================*/
@@ -348,31 +344,6 @@ ID_CITY
 /*==============================================================*/
 create  index RELATIONSHIP_19_FK on COVID19 (
 ID_APPROVAL
-);
-
-/*==============================================================*/
-/* Table: DATA                                                  */
-/*==============================================================*/
-create table DATA (
-   DATA_ID              INT4                 not null,
-   NEW_CASES            DECIMAL              null,
-   TOTAL_DEATHS__       DECIMAL              null,
-   NEW_CASES_SMOOTHED   DECIMAL              null,
-   TOTAL_CASES          DECIMAL              null,
-   NEW_DEATHS           DECIMAL              null,
-   NEW_DEATHS_SMOOTHED  DECIMAL              null,
-   ICU_PATIENTS         DECIMAL              null,
-   HOSP_PATIENTS        DECIMAL              null,
-   WEEKLY_ICU_ADMISSIONS DECIMAL              null,
-   WEEKLY_HOSP_ADMISSIONS DECIMAL              null,
-   constraint PK_DATA primary key (DATA_ID)
-);
-
-/*==============================================================*/
-/* Index: DATA_PK                                               */
-/*==============================================================*/
-create unique index DATA_PK on DATA (
-DATA_ID
 );
 
 /*==============================================================*/
@@ -574,11 +545,6 @@ alter table COUNTRY
 alter table COUNTY
    add constraint FK_COUNTY_RELATIONS_STATE foreign key (CODE)
       references STATE (CODE)
-      on delete restrict on update restrict;
-
-alter table COVID19
-   add constraint FK_COVID19_DATA_DATA foreign key (DATA_ID)
-      references DATA (DATA_ID)
       on delete restrict on update restrict;
 
 alter table COVID19
