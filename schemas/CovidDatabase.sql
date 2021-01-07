@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     7. 01. 2021 17:41:18                         */
+/* Created on:     7. 01. 2021 21:35:25                         */
 /*==============================================================*/
 
 
@@ -108,7 +108,7 @@ drop table UNEMPLOYMENT;
 /* Table: AGEGROUP                                              */
 /*==============================================================*/
 create table AGEGROUP (
-   ID_AGE_GROUP         NUMERIC              not null,
+   ID_AGE_GROUP         INT4                 not null,
    AGE_GROUP            VARCHAR(32)          null,
    constraint PK_AGEGROUP primary key (ID_AGE_GROUP)
 );
@@ -125,7 +125,7 @@ ID_AGE_GROUP
 /*==============================================================*/
 create table APPROVALRATING (
    ID_APPROVAL          NUMERIC              not null,
-   ID_RECORD            NUMERIC              null,
+   ID_RECORD            INT4                 null,
    APPROVAL_ESTIMATE    DECIMAL              null,
    APPROVAL_HIGH        DECIMAL              null,
    APPROVAL_LOW         DECIMAL              null,
@@ -153,11 +153,12 @@ ID_RECORD
 /* Table: BYGENDER                                              */
 /*==============================================================*/
 create table BYGENDER (
-   ID_AGE_GROUP         NUMERIC              not null,
+   ID_AGE_GROUP         INT4                 not null,
    CODE                 CHAR(2)              not null,
+   GENDER               CHAR(1)              null,
    REPORT_DATE          DATE                 null,
-   COVID_DEATHS_BY_GENDER NUMERIC              null,
-   TOTAL_DEATHS_BY_GENDER NUMERIC              null,
+   COVID_DEATHS_BY_GENDER INT4                 null,
+   TOTAL_DEATHS_BY_GENDER INT4                 null,
    constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE)
 );
 
@@ -222,7 +223,7 @@ create table COUNTRY (
    ISO                  CHAR(3)              not null,
    ID_CONTINENT         NUMERIC              not null,
    COUNTRY_NAME         VARCHAR(32)          not null,
-   POPULATION           NUMERIC              null,
+   POPULATION           INT4                 null,
    POPULATION_DENSITY   DECIMAL              null,
    MEDIAN_AGE           DECIMAL              null,
    AGED_65_OR_OLDER     DECIMAL              null,
@@ -258,7 +259,7 @@ ID_CONTINENT
 /* Table: COUNTY                                                */
 /*==============================================================*/
 create table COUNTY (
-   FIPS                 NUMERIC              not null,
+   FIPS                 INT4                 not null,
    CODE                 CHAR(2)              null,
    COUNTY_NAME          VARCHAR(64)          not null,
    constraint PK_COUNTY primary key (FIPS)
@@ -282,25 +283,25 @@ CODE
 /* Table: COVID19                                               */
 /*==============================================================*/
 create table COVID19 (
-   ID_RECORD            NUMERIC              not null,
+   ID_RECORD            INT4                 not null,
    ID_CITY              NUMERIC              null,
-   DATA_ID              NUMERIC              null,
+   DATA_ID              INT4                 null,
    CODE                 CHAR(2)              null,
-   FIPS                 NUMERIC              null,
+   FIPS                 INT4                 null,
    ISO                  CHAR(3)              not null,
    ID_APPROVAL          NUMERIC              null,
-   DAT_DATA_ID          NUMERIC              null,
+   DAT_DATA_ID          INT4                 null,
    REPRODUCTION_RATE    DECIMAL              null,
-   NEW_TESTS            NUMERIC              null,
+   NEW_TESTS            INT4                 null,
    NEW_TESTS_PER_THOUSAND DECIMAL              null,
-   TOTAL_TESTS          NUMERIC              null,
+   TOTAL_TESTS          INT4                 null,
    TOTAL_TESTS_PER_THOUSAND DECIMAL              null,
    NEW_TESTS_SMOOTHED   DECIMAL              null,
    NEW_TESTS_SMOOTHED_PER_THOUSAND DECIMAL              null,
    POSITIVE_RATE        DECIMAL              null,
    TESTS_PER_CASE       DECIMAL              null,
    TESTS_UNIT           DECIMAL              null,
-   TOTAL_VACCINATIONS   NUMERIC              null,
+   TOTAL_VACCINATIONS   INT4                 null,
    TOTAL_VACCINATIONS_PER_HUNDRED DECIMAL              null,
    STRINGENCY_INDEX     DECIMAL              null,
    DATE                 DATE                 null,
@@ -367,9 +368,9 @@ DATA_ID
 /* Table: DATA                                                  */
 /*==============================================================*/
 create table DATA (
-   DATA_ID              NUMERIC              not null,
-   ID_RECORD            NUMERIC              not null,
-   COV_ID_RECORD        NUMERIC              not null,
+   DATA_ID              INT4                 not null,
+   ID_RECORD            INT4                 not null,
+   COV_ID_RECORD        INT4                 not null,
    NEW_CASES            DECIMAL              null,
    TOTAL_DEATHS____8    DECIMAL              null,
    NEW_CASES_SMOOTHED   DECIMAL              null,
@@ -408,21 +409,20 @@ ID_RECORD
 /* Table: HOSPITAL                                              */
 /*==============================================================*/
 create table HOSPITAL (
-   HOSPITAL_ID          NUMERIC              not null,
-   FIPS                 NUMERIC              null,
+   HOSPITAL_ID          INT4                 not null,
+   FIPS                 INT4                 null,
    CODE                 CHAR(2)              null,
-   ID_SEVERITY          NUMERIC              null,
+   ID_SEVERITY          INT4                 null,
    HOSPITAL_NAME        VARCHAR(128)         null,
    TYPE                 VARCHAR(64)          null,
    ADDRESS              VARCHAR(128)         null,
    CITY                 VARCHAR(64)          null,
    ZIP                  VARCHAR(64)          null,
-   COUNTY               VARCHAR(64)          null,
-   LICENCED_BEDS        NUMERIC              null,
-   STAFFED_BEDS         NUMERIC              null,
-   ICU_BEDS             NUMERIC              null,
-   ADULT_ICU_BEDS       NUMERIC              null,
-   PEDI_ICU_BEDS        NUMERIC              null,
+   LICENCED_BEDS        INT4                 null,
+   STAFFED_BEDS         INT4                 null,
+   ICU_BEDS             INT4                 null,
+   ADULT_ICU_BEDS       INT4                 null,
+   PEDI_ICU_BEDS        INT4                 null,
    BED_UTILIZATION      DECIMAL              null,
    POTENTIAL            DECIMAL              null,
    AVG_VENTILATION_USE  DECIMAL              null,
@@ -463,7 +463,7 @@ FIPS
 /* Table: MEASURES                                              */
 /*==============================================================*/
 create table MEASURES (
-   MEASURE_ID           NUMERIC              not null,
+   MEASURE_ID           INT4                 not null,
    CODE                 CHAR(2)              null,
    INDUSTRY             INT2                 null,
    PERSONAL_CARE        INT2                 null,
@@ -493,8 +493,8 @@ CODE
 /* Table: SEVERITYPREDICTION                                    */
 /*==============================================================*/
 create table SEVERITYPREDICTION (
-   ID_SEVERITY          NUMERIC              not null,
-   HOSPITAL_ID          NUMERIC              not null,
+   ID_SEVERITY          INT4                 not null,
+   HOSPITAL_ID          INT4                 not null,
    SEVERITY_1DAY        INT2                 null,
    SEVERITY_2DAY        INT2                 null,
    SEVERITY_3DAY        INT2                 null,
@@ -527,11 +527,11 @@ HOSPITAL_ID
 create table STATE (
    CODE                 CHAR(2)              not null,
    ISO                  CHAR(3)              not null,
-   MEASURE_ID           NUMERIC              null,
+   MEASURE_ID           INT4                 null,
    STATE_NAME           VARCHAR(32)          not null,
-   POPULATION           NUMERIC              null,
-   COVID_DEATHS         NUMERIC              null,
-   TOTAL_DEATHS         NUMERIC              null,
+   POPULATION           INT4                 null,
+   COVID_DEATHS         INT4                 null,
+   TOTAL_DEATHS         INT4                 null,
    constraint PK_STATE primary key (CODE)
 );
 
@@ -560,7 +560,7 @@ MEASURE_ID
 /* Table: UNEMPLOYMENT                                          */
 /*==============================================================*/
 create table UNEMPLOYMENT (
-   UNEMPLOYMENT_ID      NUMERIC              not null,
+   UNEMPLOYMENT_ID      INT4                 not null,
    ISO                  CHAR(3)              null,
    UNEMPLOYMENT_DATE    DATE                 null,
    VALUE                DECIMAL              null,
