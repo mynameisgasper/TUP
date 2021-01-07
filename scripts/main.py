@@ -30,6 +30,9 @@ age_groups = {
     14: '85 years and over'
 }
 
+# built during creation
+states = {}
+
 
 def decide_measure(closed, opened):
     if not closed or closed is None:
@@ -187,12 +190,35 @@ def insert_state_measurements():
 
             command = "UPDATE state SET measure_id={0} WHERE code='{1}'"
             cursor.execute(command.format(measure_id, row[1]))
+
+            states[row[1]] = row[2]
             cursor.commit()
     except:
         print("No new states inserted")
+        cursor = connection.cursor()
+        query = "SELECT code, state_name FROM state"
+        cursor.execute(query)
+        state_list = cursor.fetchall()
+        for state in state_list:
+            states[state[0]] = state[1]
 
 
-connection_string = 'DSN=test'
+def insert_by_age():
+    f = pd.read_csv("../datasets/covid-19-death-counts-sex-age-state_dataset_covid-19-death-counts-sex-age-state.csv")
+    keep_col = ['Data as of', 'State', 'Sex', 'Age group', 'COVID-19 Deaths', 'Total Deaths']
+    new_f = f[keep_col]
+
+    cursor = connection.cursor()
+    for row in new_f.itertuples():
+        if row[2] not in ['United States', 'Puerto Rico']:
+            state_name = row[2]
+            sex = row[3]
+            age_group = row[4]
+            covid_deaths = row[5]
+            total_deaths = row[6]
+
+
+connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
 insert_continents()
@@ -201,5 +227,4 @@ insert_severity()
 insert_unemployment()
 insert_age_group()
 insert_state_measurements()
-
-
+insert_by_age()
