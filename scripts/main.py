@@ -33,6 +33,7 @@ age_groups = {
 # built during creation
 states = {}
 states_inverse = {}
+county = {}
 
 
 def decide_measure(closed, opened):
@@ -221,6 +222,28 @@ def insert_by_age():
             total_deaths = row[6]
 
 
+def insert_county():
+    try:
+        f = pd.read_csv("../datasets/published_PUBLIC_COVID-19-Activity_1609956124_COVID-19 Activity.csv")
+        keep_col = ['COUNTY_FIPS_NUMBER', 'PROVINCE_STATE_NAME', 'COUNTY_NAME']
+        new_f = f[keep_col]
+        #new_f.to_csv("county.csv", index=False)
+
+        cursor = connection.cursor()
+        last_county = ''
+        count = 1
+        for row in new_f.itertuples():
+            if row[1] in county or last_county == row[3] or row[3] == "" or row[3] == "Unknown" or handleNan(row[1]) == 0 or row[2] in ["Northern Mariana Islands", "Virgin Islands"]:
+                continue
+            county[int(row[1])] = row[2]
+            query = "INSERT INTO county (fips, code, county_name) VALUES" \
+                    "({0}, '{1}', '{2}')"
+            cursor.execute(query.format(int(row[1]), states_inverse[row[2]], row[3].replace("'","")))
+            last_county = row[3]
+        cursor.commit()
+    except:
+        print("No new counties inserted")
+
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
@@ -231,3 +254,4 @@ insert_unemployment()
 insert_age_group()
 insert_state_measurements()
 insert_by_age()
+insert_county()
