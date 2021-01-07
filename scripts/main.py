@@ -72,18 +72,17 @@ def insert_severity():
     keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_6-day',
                 'severity_7-day', 'latitude', 'longitude']
     new_f = f[keep_col]
-    new_f.to_csv("severity.csv", index=False)
-
+    #new_f.to_csv("severity.csv", index=False)
 
 def insert_unemployment():
     f = pd.read_csv("../datasets/STLABOUR_06012021210015887_1.csv")
-    keep_col = ['ISO', 'Country_name', 'Value']
+    keep_col = ['ISO', 'Number date', 'Value']
     new_f = f[keep_col]
-    # new_f.to_csv("unemployment.csv", index=False)
+    #new_f.to_csv("unemployment.csv", index=False)
 
 
 connection_string = 'DSN=Seminarska'
-connection = pyodbc.connect(connection_string)
+#connection = pyodbc.connect(connection_string)
 
 insert_continents()
 insert_countries()
