@@ -3701,12 +3701,14 @@ DAT 1610051700</a:History>
 <a:Code>ISO</a:Code>
 <a:CreationDate>1610051700</a:CreationDate>
 <a:Creator>Gasper</a:Creator>
-<a:ModificationDate>1610051700</a:ModificationDate>
-<a:Modifier>Gasper</a:Modifier>
+<a:ModificationDate>1610060386</a:ModificationDate>
+<a:Modifier>Miha</a:Modifier>
 <a:History>ORG {6B7B9A61-70CF-44B7-8A1E-420A352E24B0},{6C9246C4-D5B0-4FFD-ADE0-BC556CE98D4E}
-DAT 1610051700</a:History>
-<a:DataType>CHAR(3)</a:DataType>
-<a:Length>3</a:Length>
+DAT 1610051700
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>CHAR(16)</a:DataType>
+<a:Length>16</a:Length>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o84">
