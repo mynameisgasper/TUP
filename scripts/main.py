@@ -2,7 +2,6 @@ import pyodbc
 import pandas as pd
 import math
 
-
 continents = {
     0: 'Africa',
     1: 'Asia',
@@ -35,6 +34,7 @@ states = {}
 states_inverse = {}
 county = {}
 severity = {}
+
 
 def transform_month_name(name):
     if name.upper() == "JAN":
@@ -120,9 +120,12 @@ def insert_continents():
 
 def insert_countries():
     try:
-        f = pd.read_csv("../datasets/covid-19-world-cases-deaths-testing_dataset_covid-19-world-cases-deaths-testing.csv")
-        keep_col = ['iso_code', 'continent', 'location', 'population', 'population_density', 'median_age', 'aged_65_older',
-                    'aged_70_older', 'gdp_per_capita', 'extreme_poverty', 'cardiovasc_death_rate', 'diabetes_prevalence',
+        f = pd.read_csv(
+            "../datasets/covid-19-world-cases-deaths-testing_dataset_covid-19-world-cases-deaths-testing.csv")
+        keep_col = ['iso_code', 'continent', 'location', 'population', 'population_density', 'median_age',
+                    'aged_65_older',
+                    'aged_70_older', 'gdp_per_capita', 'extreme_poverty', 'cardiovasc_death_rate',
+                    'diabetes_prevalence',
                     'female_smokers', 'male_smokers', 'handwashing_facilities', 'hospital_beds_per_thousand',
                     'life_expectancy', 'human_development_index']
         new_f = f[keep_col]
@@ -146,13 +149,15 @@ def insert_countries():
     except:
         print("No new countries inserted")
 
+
 def insert_severity():
     try:
         f = pd.read_csv("../datasets/covid-19-yu-group_dataset_severity-index.csv")
-        keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_5-day', 'severity_6-day',
+        keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_5-day',
+                    'severity_6-day',
                     'severity_7-day', 'latitude', 'longitude']
         new_f = f[keep_col]
-        #new_f.to_csv("severity.csv", index=False)
+        # new_f.to_csv("severity.csv", index=False)
 
         cursor = connection.cursor()
         delete_query = "TRUNCATE severityprediction RESTART IDENTITY CASCADE;"
@@ -161,8 +166,9 @@ def insert_severity():
         for row in new_f.itertuples():
             query = "INSERT INTO severityprediction (severity_1day, severity_2day, severity_3day, severity_4day, severity_5day, severity_6day, severity_7day, lat_hospital, lon_hospital) VALUES" \
                     "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})"
-            severity[(row[8],row[7])] = elementNo
-            cursor.execute(query.format(row[1], row[2], row[3], row[4], row[5], row[6], row[7], handleNan(row[8]), handleNan(row[9])))
+            severity[(row[8], row[7])] = elementNo
+            cursor.execute(query.format(row[1], row[2], row[3], row[4], row[5], row[6], row[7], handleNan(row[8]),
+                                        handleNan(row[9])))
             if handleNan(row[9]) != 0 and handleNan(row[8]) != 0:
                 severity[(row[8], row[9])] = elementNo
             print(row)
@@ -171,6 +177,7 @@ def insert_severity():
 
     except:
         print("No new severity records inserted")
+
 
 def insert_unemployment():
     try:
@@ -256,7 +263,8 @@ def insert_state_measurements():
 
 def insert_by_age():
     try:
-        f = pd.read_csv("../datasets/covid-19-death-counts-sex-age-state_dataset_covid-19-death-counts-sex-age-state.csv")
+        f = pd.read_csv(
+            "../datasets/covid-19-death-counts-sex-age-state_dataset_covid-19-death-counts-sex-age-state.csv")
         keep_col = ['Data as of', 'State', 'Sex', 'Age group', 'COVID-19 Deaths', 'Total Deaths']
         new_f = f[keep_col]
 
@@ -275,7 +283,8 @@ def insert_by_age():
                 elif age_group is not None and sex != 'All Sexes':
                     query = "INSERT INTO bygender (id_age_group, code, gender, report_date, covid_deaths_by_gender, total_deaths_by_gender) VALUES" \
                             "({0}, '{1}', '{2}', '{3}', {4}, {5})"
-                    cursor.execute(query.format(age_group, state, transformGender(sex), row[1], covid_deaths, total_deaths))
+                    cursor.execute(
+                        query.format(age_group, state, transformGender(sex), row[1], covid_deaths, total_deaths))
         cursor.commit()
     except:
         print("No new data by gender and age added")
@@ -286,29 +295,33 @@ def insert_county():
         f = pd.read_csv("../datasets/published_PUBLIC_COVID-19-Activity_1609956124_COVID-19 Activity.csv")
         keep_col = ['COUNTY_FIPS_NUMBER', 'PROVINCE_STATE_NAME', 'COUNTY_NAME']
         new_f = f[keep_col]
-        #new_f.to_csv("county.csv", index=False)
+        # new_f.to_csv("county.csv", index=False)
 
         cursor = connection.cursor()
         last_county = ''
         for row in new_f.itertuples():
-            if row[1] in county or last_county == row[3] or row[3] == "" or row[3] == "Unknown" or handleNan(row[1]) == 0 or row[2] in ["Northern Mariana Islands", "Virgin Islands"]:
+            if row[1] in county or last_county == row[3] or row[3] == "" or row[3] == "Unknown" or handleNan(
+                    row[1]) == 0 or row[2] in ["Northern Mariana Islands", "Virgin Islands"]:
                 continue
             county[int(row[1])] = row[2]
             query = "INSERT INTO county (fips, code, county_name) VALUES" \
                     "({0}, '{1}', '{2}')"
-            cursor.execute(query.format(int(row[1]), states_inverse[row[2]], row[3].replace("'","")))
+            cursor.execute(query.format(int(row[1]), states_inverse[row[2]], row[3].replace("'", "")))
             last_county = row[3]
         cursor.commit()
     except:
         print("No new counties inserted")
 
+
 def insert_hospital():
     try:
         f = pd.read_csv("../datasets/usa-hospital-beds_dataset_usa-hospital-beds.csv")
-        keep_col = ['OBJECTID', 'FIPS', 'STATE_NAME', 'HOSPITAL_NAME', 'HOSPITAL_TYPE', 'HQ_ADDRESS', 'HQ_CITY', 'HQ_ZIP_CODE',
-                    'NUM_LICENSED_BEDS', 'NUM_STAFFED_BEDS', 'NUM_ICU_BEDS', 'ADULT_ICU_BEDS', 'PEDI_ICU_BEDS', 'BED_UTILIZATION',
+        keep_col = ['OBJECTID', 'FIPS', 'STATE_NAME', 'HOSPITAL_NAME', 'HOSPITAL_TYPE', 'HQ_ADDRESS', 'HQ_CITY',
+                    'HQ_ZIP_CODE',
+                    'NUM_LICENSED_BEDS', 'NUM_STAFFED_BEDS', 'NUM_ICU_BEDS', 'ADULT_ICU_BEDS', 'PEDI_ICU_BEDS',
+                    'BED_UTILIZATION',
                     'Potential_Increase_In_Bed_Capac', 'AVG_VENTILATOR_USAGE', 'Y', 'X']
-        #id severity je za STATE_NAME ampak ga nimamo in bo prazen
+        # id severity je za STATE_NAME ampak ga nimamo in bo prazen
         new_f = f[keep_col]
 
         cursor = connection.cursor()
@@ -324,26 +337,28 @@ def insert_hospital():
                         " icu_beds, adult_icu_beds, pedi_icu_beds, bed_utilization, potential, avg_ventilation_use, lat, lon) VALUES" \
                         "({0}, {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18})"
                 print(query.format(row[1], int(row[2]), states_inverse[row[3]], sev_id, row[4].replace("'", ""),
-                                            row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
-                                            row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
-                                            handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
-                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
-                cursor.execute(query.format(row[1], int(row[2]), states_inverse[row[3]], sev_id, row[4].replace("'", ""),
-                                            row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
-                                            row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
-                                            handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
-                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+                                   row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
+                                   row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
+                                   handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
+                                   handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+                cursor.execute(
+                    query.format(row[1], int(row[2]), states_inverse[row[3]], sev_id, row[4].replace("'", ""),
+                                 row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
+                                 row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
+                                 handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
+                                 handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
 
             else:
                 query = "INSERT INTO hospital (hospital_id, fips, code, hospital_name, type, address, city, zip, licenced_beds, staffed_beds," \
                         " icu_beds, adult_icu_beds, pedi_icu_beds, bed_utilization, potential, avg_ventilation_use, lat, lon) VALUES" \
                         "({0}, {1}, '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})"
                 print(row)
-                cursor.execute(query.format(row[1], int(row[2]), states_inverse[row[3]], row[4].replace("'",""),
-                                            row[5].replace("'",""), row[6].replace("'",""), row[7].replace("'",""),
+                cursor.execute(query.format(row[1], int(row[2]), states_inverse[row[3]], row[4].replace("'", ""),
+                                            row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
                                             row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
                                             handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
-                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]),
+                                            handleNan(row[18])))
         cursor.commit()
 
 
@@ -353,14 +368,16 @@ def insert_hospital():
 
 def insert_covid_data():
     try:
-        f = pd.read_csv("../datasets/covid-19-world-cases-deaths-testing_dataset_covid-19-world-cases-deaths-testing.csv")
+        f = pd.read_csv(
+            "../datasets/covid-19-world-cases-deaths-testing_dataset_covid-19-world-cases-deaths-testing.csv")
         keep_col = ['iso_code', 'date', 'total_cases', 'new_cases', 'new_cases_smoothed', 'total_deaths', 'new_deaths',
                     'new_deaths_smoothed', 'total_cases_per_million', 'new_cases_per_million',
                     'new_cases_smoothed_per_million', 'total_deaths_per_million', 'new_deaths_per_million',
                     'new_deaths_smoothed_per_million', 'reproduction_rate', 'icu_patients', 'icu_patients_per_million',
                     'hosp_patients', 'hosp_patients_per_million', 'weekly_icu_admissions',
                     'weekly_icu_admissions_per_million', 'weekly_hosp_admissions', 'weekly_hosp_admissions_per_million',
-                    'new_tests', 'total_tests', 'total_tests_per_thousand', 'new_tests_per_thousand', 'new_tests_smoothed',
+                    'new_tests', 'total_tests', 'total_tests_per_thousand', 'new_tests_per_thousand',
+                    'new_tests_smoothed',
                     'new_tests_smoothed_per_thousand', 'positive_rate', 'tests_per_case', 'tests_units',
                     'total_vaccinations', 'total_vaccinations_per_hundred', 'stringency_index', 'location']
         new_f = f[keep_col]
@@ -372,6 +389,8 @@ def insert_covid_data():
         for row in new_f.itertuples():
             if (row[36] in ['International', 'World']):
                 continue
+
+            print()
             query1 = "INSERT INTO covid19 (ISO, reproduction_rate, new_tests, new_tests_per_thousand, total_tests, " \
                      "total_tests_per_thousand, new_tests_smoothed, new_tests_smoothed_per_thousand, positive_rate," \
                      "tests_per_case, tests_unit, total_vaccinations, total_vaccinations_per_hundred, stringency_index, " \
@@ -380,10 +399,11 @@ def insert_covid_data():
                      "VALUES ('{0}', {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, '{10}', {11}, {12}, {13}, '{14}', " \
                      "{15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23})"
             cursor.execute(query1.format(row[1], handleNan(row[15]), handleNan(row[24]), handleNan(row[27]),
-                                handleNan(row[25]), handleNan(row[26]), handleNan(row[28]), handleNan(row[29]),
-                                handleNan(row[30]), handleNan(row[31]), row[32], handleNan(row[33]),
-                                handleNan(row[34]), handleNan(row[35]), row[2], handleNan(4), handleNan(6), handleNan(5),
-                                handleNan(3), handleNan(7), handleNan(8), handleNan(16), handleNan(20), handleNan(22)))
+                                         handleNan(row[25]), handleNan(row[26]), handleNan(row[28]), handleNan(row[29]),
+                                         handleNan(row[30]), handleNan(row[31]), row[32], handleNan(row[33]),
+                                         handleNan(row[34]), handleNan(row[35]), row[2], handleNan(row[4]),
+                                         handleNan(row[6]), handleNan(row[5]), handleNan(row[3]), handleNan(row[7]),
+                                         handleNan(row[8]), handleNan(row[16]), handleNan(row[20]), handleNan(row[22])))
 
         cursor.execute('COMMIT')
         cursor.commit()
@@ -401,7 +421,8 @@ def insert_covid_by_counties():
     cursor = connection.cursor()
     counter = 0
     for row in new_f.itertuples():
-        if row[6] != 'USA' or not isinstance(row[9], str) and math.isnan(row[9]) or row[9] in ["Northern Mariana Islands", "Virgin Islands", "Guam", "Puerto Rico"]:
+        if row[6] != 'USA' or not isinstance(row[9], str) and math.isnan(row[9]) or row[9] in [
+            "Northern Mariana Islands", "Virgin Islands", "Guam", "Puerto Rico"]:
             continue
         if not isinstance(row[1], str) and math.isnan(row[5]):
             query = "INSERT INTO covid19 (code, ISO, date, total_cases, new_deaths, new_cases, total_deaths)" \
@@ -464,10 +485,15 @@ def insert_new_york():
         keep_col = ['DATE_OF_INTEREST', 'CASE_COUNT', 'HOSPITALIZED_COUNT', 'DEATH_COUNT']
         new_f = f[keep_col]
         cursor = connection.cursor()
+        sum_cases = 0
+        sum_deaths = 0
         for row in new_f.itertuples():
-            query = "INSERT INTO covid19 (date, total_cases, hosp_patients, total_deaths, id_city, code, iso) " \
-                    "VALUES ('{0}', {1}, {2}, {3}, 0, 'NY', 'USA')"
-            cursor.execute(query.format(row[1], handleNan(row[2]), handleNan(row[3]), handleNan(row[4])))
+            sum_cases += handleNan(row[2])
+            sum_deaths += handleNan(row[4])
+            query = "INSERT INTO covid19 (date, new_cases, total_cases, hosp_patients, new_deaths, total_deaths, " \
+                    "id_city, code, iso) " \
+                    "VALUES ('{0}', {1}, {2}, {3}, {4}, {5}, 0, 'NY', 'USA')"
+            cursor.execute(query.format(row[1], handleNan(row[2]), sum_cases, handleNan(row[3]), handleNan(row[4]), sum_deaths))
         cursor.commit()
     except:
         print("No new New York data inserted")
@@ -533,4 +559,3 @@ print("Inserting covid data by counties")
 insert_covid_by_counties()
 print("Inserting cities")
 insert_city()
-
