@@ -241,7 +241,7 @@ def insert_state_measurements():
             cursor.execute(command.format(measure_id, row[1]))
 
             states[row[1]] = row[2]
-            states[row[2]] = row[1]
+            states_inverse[row[2]] = row[1]
             cursor.commit()
     except:
         print("No new states inserted")
