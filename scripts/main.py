@@ -34,7 +34,7 @@ age_groups = {
 states = {}
 states_inverse = {}
 county = {}
-
+severity = {}
 
 def transform_month_name(name):
     if name.upper() == "JAN":
@@ -153,15 +153,24 @@ def insert_severity():
                     'severity_7-day', 'latitude', 'longitude']
         new_f = f[keep_col]
         #new_f.to_csv("severity.csv", index=False)
+
         cursor = connection.cursor()
+        delete_query = "TRUNCATE severityprediction RESTART IDENTITY CASCADE;"
+        elementNo = 1
+        cursor.execute(delete_query)
         for row in new_f.itertuples():
             query = "INSERT INTO severityprediction (severity_1day, severity_2day, severity_3day, severity_4day, severity_5day, severity_6day, severity_7day, lat_hospital, lon_hospital) VALUES" \
                     "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})"
-            #cursor.execute(query.format(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+            severity[(row[8],row[7])] = elementNo
+            cursor.execute(query.format(row[1], row[2], row[3], row[4], row[5], row[6], row[7], handleNan(row[8]), handleNan(row[9])))
+            if handleNan(row[9]) != 0 and handleNan(row[8]) != 0:
+                severity[(row[8], row[9])] = elementNo
+            print(row)
+            elementNo += 1
         cursor.commit()
 
     #except:
-       # print("No new severity records inserted")
+    #    print("No new severity records inserted")
 
 def insert_unemployment():
     try:
@@ -294,16 +303,52 @@ def insert_county():
         print("No new counties inserted")
 
 def insert_hospital():
-    try:
+    #try:
         f = pd.read_csv("../datasets/usa-hospital-beds_dataset_usa-hospital-beds.csv")
         keep_col = ['OBJECTID', 'FIPS', 'STATE_NAME', 'HOSPITAL_NAME', 'HOSPITAL_TYPE', 'HQ_ADDRESS', 'HQ_CITY', 'HQ_ZIP_CODE',
                     'NUM_LICENSED_BEDS', 'NUM_STAFFED_BEDS', 'NUM_ICU_BEDS', 'ADULT_ICU_BEDS', 'PEDI_ICU_BEDS', 'BED_UTILIZATION',
                     'Potential_Increase_In_Bed_Capac', 'AVG_VENTILATOR_USAGE', 'Y', 'X']
         #id severity je za STATE_NAME ampak ga nimamo in bo prazen
         new_f = f[keep_col]
-        new_f.to_csv("hospital.csv", index=False)
-    except:
-        print("No new hospitals inserted")
+
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            if handleNan(row[2]) == 0:
+                continue
+            query_check = "SELECT * FROM county WHERE county.fips = " + str(row[2])
+            if cursor.execute(query_check).rowcount == 0 or handleNan(row[17]) == 0 or handleNan(row[18]) == 0:
+                continue
+            if (row[17], row[18]) in severity:
+                sev_id = severity[(row[17], row[18])]
+                query = "INSERT INTO hospital (hospital_id, fips, code, id_severity, hospital_name, type, address, city, zip, licenced_beds, staffed_beds," \
+                        " icu_beds, adult_icu_beds, pedi_icu_beds, bed_utilization, potential, avg_ventilation_use, lat, lon) VALUES" \
+                        "({0}, {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18})"
+                print(query.format(row[1], int(row[2]), states_inverse[row[3]], sev_id, row[4].replace("'", ""),
+                                            row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
+                                            row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
+                                            handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
+                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+                cursor.execute(query.format(row[1], int(row[2]), states_inverse[row[3]], sev_id, row[4].replace("'", ""),
+                                            row[5].replace("'", ""), row[6].replace("'", ""), row[7].replace("'", ""),
+                                            row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
+                                            handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
+                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+
+            else:
+                query = "INSERT INTO hospital (hospital_id, fips, code, hospital_name, type, address, city, zip, licenced_beds, staffed_beds," \
+                        " icu_beds, adult_icu_beds, pedi_icu_beds, bed_utilization, potential, avg_ventilation_use, lat, lon) VALUES" \
+                        "({0}, {1}, '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})"
+                print(row)
+                cursor.execute(query.format(row[1], int(row[2]), states_inverse[row[3]], row[4].replace("'",""),
+                                            row[5].replace("'",""), row[6].replace("'",""), row[7].replace("'",""),
+                                            row[8], handleNan(row[9]), handleNan(row[10]), handleNan(row[11]),
+                                            handleNan(row[12]), handleNan(row[13]), handleNan(row[14]),
+                                            handleNan(row[15]), handleNan(row[16]), handleNan(row[17]), handleNan(row[18])))
+        cursor.commit()
+
+
+    #except:
+    #    print("No new hospitals inserted")
 
 
 def insert_covid_data():
@@ -460,3 +505,4 @@ print("Inserting approval")
 insert_approval()
 print("Inserting cities")
 insert_city()
+
