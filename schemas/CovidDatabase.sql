@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/01/2021 00:55:19                          */
+/* Created on:     08/01/2021 12:15:00                          */
 /*==============================================================*/
 
 
@@ -117,6 +117,7 @@ create table APPROVALRATING (
    APPROVAL_ESTIMATE    DECIMAL              null,
    APPROVAL_HIGH        DECIMAL              null,
    APPROVAL_LOW         DECIMAL              null,
+   DATE                 DATE                 null,
    constraint PK_APPROVALRATING primary key (ID_APPROVAL)
 );
 
