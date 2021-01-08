@@ -391,6 +391,32 @@ def insert_covid_data():
         print("No new COVID-19 reports inserted")
 
 
+def insert_covid_by_counties():
+    f = pd.read_csv("../datasets/published_PUBLIC_COVID-19-Activity_1609956124_COVID-19 Activity.csv")
+    keep_col = ['PEOPLE_POSITIVE_CASES_COUNT', 'PROVINCE_STATE_NAME', 'REPORT_DATE', 'PEOPLE_DEATH_NEW_COUNT',
+                'COUNTY_FIPS_NUMBER', 'COUNTRY_ALPHA_3_CODE', 'PEOPLE_POSITIVE_NEW_CASES_COUNT',
+                'PEOPLE_DEATH_COUNT', 'PROVINCE_STATE_NAME']
+    new_f = f[keep_col]
+
+    cursor = connection.cursor()
+    counter = 0
+    for row in new_f.itertuples():
+        if row[6] != 'USA' or not isinstance(row[9], str) and math.isnan(row[9]) or row[9] in ["Northern Mariana Islands", "Virgin Islands", "Guam", "Puerto Rico"]:
+            continue
+        if not isinstance(row[1], str) and math.isnan(row[5]):
+            query = "INSERT INTO covid19 (code, ISO, date, total_cases, new_deaths, new_cases, total_deaths)" \
+                    "VALUES ('{0}', '{1}', '{2}', {3}, {4}, {5}, {6})"
+            cursor.execute(query.format(states_inverse[row[2]], row[6], row[3], row[1], row[4], row[7], row[8]))
+
+        else:
+            query = "INSERT INTO covid19 (code, fips, ISO, date, total_cases, new_deaths, new_cases, total_deaths)" \
+                    "VALUES ('{0}', {1}, '{2}', '{3}', {4}, {5}, {6}, {7})"
+            cursor.execute(query.format(states_inverse[row[2]], row[5], row[6], row[3], row[1], row[4], row[7], row[8]))
+        print("County record: {0}".format(counter))
+        counter += 1
+    cursor.commit()
+
+
 def insert_approval():
     try:
         f = pd.read_csv("../datasets/fivethirtyeight-trump-approval-ratings_dataset_approval_topline.csv")
@@ -503,6 +529,8 @@ print("Inserting covid data")
 insert_covid_data()
 print("Inserting approval")
 insert_approval()
+print("Inserting covid data by counties")
+insert_covid_by_counties()
 print("Inserting cities")
 insert_city()
 
