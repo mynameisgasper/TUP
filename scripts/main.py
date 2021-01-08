@@ -252,7 +252,6 @@ def insert_county():
 
         cursor = connection.cursor()
         last_county = ''
-        count = 1
         for row in new_f.itertuples():
             if row[1] in county or last_county == row[3] or row[3] == "" or row[3] == "Unknown" or handleNan(row[1]) == 0 or row[2] in ["Northern Mariana Islands", "Virgin Islands"]:
                 continue
@@ -278,6 +277,60 @@ def insert_hospital():
         print("No new hospitals inserted")
 
 
+def insert_covid_data():
+    try:
+        f = pd.read_csv("../datasets/covid-19-world-cases-deaths-testing_dataset_covid-19-world-cases-deaths-testing.csv")
+        keep_col = ['iso_code', 'date', 'total_cases', 'new_cases', 'new_cases_smoothed', 'total_deaths', 'new_deaths',
+                    'new_deaths_smoothed', 'total_cases_per_million', 'new_cases_per_million',
+                    'new_cases_smoothed_per_million', 'total_deaths_per_million', 'new_deaths_per_million',
+                    'new_deaths_smoothed_per_million', 'reproduction_rate', 'icu_patients', 'icu_patients_per_million',
+                    'hosp_patients', 'hosp_patients_per_million', 'weekly_icu_admissions',
+                    'weekly_icu_admissions_per_million', 'weekly_hosp_admissions', 'weekly_hosp_admissions_per_million',
+                    'new_tests', 'total_tests', 'total_tests_per_thousand', 'new_tests_per_thousand', 'new_tests_smoothed',
+                    'new_tests_smoothed_per_thousand', 'positive_rate', 'tests_per_case', 'tests_units',
+                    'total_vaccinations', 'total_vaccinations_per_hundred', 'stringency_index', 'location']
+        new_f = f[keep_col]
+
+        cursor = connection.cursor()
+        cursor.execute('BEGIN')
+        cursor.execute('DELETE FROM covid19')
+
+        for row in new_f.itertuples():
+            if (row[36] in ['International', 'World']):
+                continue
+            query1 = "INSERT INTO covid19 (ISO, reproduction_rate, new_tests, new_tests_per_thousand, total_tests, " \
+                     "total_tests_per_thousand, new_tests_smoothed, new_tests_smoothed_per_thousand, positive_rate," \
+                     "tests_per_case, tests_unit, total_vaccinations, total_vaccinations_per_hundred, stringency_index, " \
+                     "date, new_cases, total_deaths, new_cases_smoothed, total_cases, new_deaths, " \
+                     "new_deaths_smoothed, icu_patients, weekly_icu_admissions, weekly_hosp_admissions) " \
+                     "VALUES ('{0}', {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, '{10}', {11}, {12}, {13}, '{14}', " \
+                     "{15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23})"
+            cursor.execute(query1.format(row[1], handleNan(row[15]), handleNan(row[24]), handleNan(row[27]),
+                                handleNan(row[25]), handleNan(row[26]), handleNan(row[28]), handleNan(row[29]),
+                                handleNan(row[30]), handleNan(row[31]), row[32], handleNan(row[33]),
+                                handleNan(row[34]), handleNan(row[35]), row[2], handleNan(4), handleNan(6), handleNan(5),
+                                handleNan(3), handleNan(7), handleNan(8), handleNan(16), handleNan(20), handleNan(22)))
+        
+        cursor.execute('COMMIT')
+        cursor.commit()
+    except:
+        print("No new COVID-19 reports inserted")
+
+
+def insert_approval():
+    try:
+        f = pd.read_csv("../datasets/fivethirtyeight-trump-approval-ratings_dataset_approval_topline.csv")
+        keep_col = ['subgroup', 'modeldate', 'approve_estimate', 'approve_lo']
+        new_f = f[keep_col]
+        for row in new_f.itertuples():
+            if row[1] == 'All polls':
+                continue
+                #print(row)
+
+    except:
+        print("No new hospitals inserted")
+
+
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
@@ -290,3 +343,5 @@ insert_state_measurements()
 insert_by_age()
 insert_county()
 insert_hospital()
+insert_covid_data()
+insert_approval()
