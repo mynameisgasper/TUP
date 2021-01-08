@@ -147,7 +147,7 @@ def insert_countries():
         print("No new countries inserted")
 
 def insert_severity():
-    #try:
+    try:
         f = pd.read_csv("../datasets/covid-19-yu-group_dataset_severity-index.csv")
         keep_col = ['severity_1-day', 'severity_2-day', 'severity_3-day', 'severity_4-day', 'severity_5-day', 'severity_6-day',
                     'severity_7-day', 'latitude', 'longitude']
@@ -169,8 +169,8 @@ def insert_severity():
             elementNo += 1
         cursor.commit()
 
-    #except:
-    #    print("No new severity records inserted")
+    except:
+        print("No new severity records inserted")
 
 def insert_unemployment():
     try:
@@ -303,7 +303,7 @@ def insert_county():
         print("No new counties inserted")
 
 def insert_hospital():
-    #try:
+    try:
         f = pd.read_csv("../datasets/usa-hospital-beds_dataset_usa-hospital-beds.csv")
         keep_col = ['OBJECTID', 'FIPS', 'STATE_NAME', 'HOSPITAL_NAME', 'HOSPITAL_TYPE', 'HQ_ADDRESS', 'HQ_CITY', 'HQ_ZIP_CODE',
                     'NUM_LICENSED_BEDS', 'NUM_STAFFED_BEDS', 'NUM_ICU_BEDS', 'ADULT_ICU_BEDS', 'PEDI_ICU_BEDS', 'BED_UTILIZATION',
@@ -347,8 +347,8 @@ def insert_hospital():
         cursor.commit()
 
 
-    #except:
-    #    print("No new hospitals inserted")
+    except:
+        print("No new hospitals inserted")
 
 
 def insert_covid_data():
