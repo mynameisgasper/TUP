@@ -75,16 +75,23 @@ def transformGender(gender):
 
 
 def decide_measure(closed, opened):
-    if not closed or closed is None:
-        if not opened or opened is None:
-            return 0
-        else:
-            return 1
+    close_status = False
+    open_status = False
+    if isinstance(closed, str):
+        close_status = True
+
+    if isinstance(opened, str):
+        open_status = True
+
+    if open_status and close_status:
+        print(opened, "----------------", closed, 2)
+        return 2
+    elif opened and not close_status:
+        print(opened, "----------------", closed, 1)
+        return 1
     else:
-        if not opened or opened is None:
-            return 3
-        else:
-            return 2
+        print(opened, "----------------", closed, 3)
+        return 3
 
 
 def handleNan(value):
