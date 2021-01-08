@@ -310,7 +310,7 @@ def insert_covid_data():
                                 handleNan(row[30]), handleNan(row[31]), row[32], handleNan(row[33]),
                                 handleNan(row[34]), handleNan(row[35]), row[2], handleNan(4), handleNan(6), handleNan(5),
                                 handleNan(3), handleNan(7), handleNan(8), handleNan(16), handleNan(20), handleNan(22)))
-        
+
         cursor.execute('COMMIT')
         cursor.commit()
     except:
@@ -320,15 +320,29 @@ def insert_covid_data():
 def insert_approval():
     try:
         f = pd.read_csv("../datasets/fivethirtyeight-trump-approval-ratings_dataset_approval_topline.csv")
-        keep_col = ['subgroup', 'modeldate', 'approve_estimate', 'approve_lo']
+        keep_col = ['subgroup', 'modeldate', 'approve_estimate', 'approve_hi', 'approve_lo']
         new_f = f[keep_col]
+        cursor = connection.cursor()
         for row in new_f.itertuples():
             if row[1] == 'All polls':
-                continue
-                #print(row)
+                query = "INSERT INTO approvalrating (approval_estimate, approval_high, approval_low, date) " \
+                        "VALUES ({0}, {1}, {2}, '{3}') RETURNING id_approval"
+                cursor.execute(query.format(row[3], row[4], row[5], row[2]))
+                id = cursor.fetchall()[0][0]
 
+                query = "UPDATE covid19 SET id_approval={0} WHERE iso='USA' AND date='{1}'"
+                cursor.execute(query.format(id, row[2]))
+
+                query = "SELECT id_record FROM covid19 WHERE iso='USA' AND date='{0}'"
+                cursor.execute(query.format(row[2]))
+                id_record = cursor.fetchall()
+                if len(id_record) > 0:
+                    id_record = id_record[0][0]
+                    query = "UPDATE approvalrating SET id_record={0} WHERE id_approval={1}"
+                    cursor.execute(query.format(id_record, id))
+        cursor.commit()
     except:
-        print("No new hospitals inserted")
+        print("No new approvals inserted")
 
 
 connection_string = 'DSN=Seminarska'
