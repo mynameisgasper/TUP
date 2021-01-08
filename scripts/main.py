@@ -36,6 +36,35 @@ states_inverse = {}
 county = {}
 
 
+def transform_month_name(name):
+    if name.upper() == "JAN":
+        return "01"
+    elif name.upper() == "FEB":
+        return "02"
+    elif name.upper() == "MAR":
+        return "03"
+    elif name.upper() == "APR":
+        return "04"
+    elif name.upper() == "MAY":
+        return "05"
+    elif name.upper() == "JUN":
+        return "06"
+    elif name.upper() == "JUL":
+        return "07"
+    elif name.upper() == "AUG":
+        return "08"
+    elif name.upper() == "SEP":
+        return "09"
+    elif name.upper() == "OCT":
+        return "10"
+    elif name.upper() == "NOB":
+        return "11"
+    elif name.upper() == "DEC":
+        return "12"
+    else:
+        return "00"
+
+
 def transformGender(gender):
     if gender == 'Male':
         return 'M'
@@ -345,17 +374,89 @@ def insert_approval():
         print("No new approvals inserted")
 
 
+def insert_city():
+    try:
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO city (id_city, city_name) VALUES (0, 'New York City')")
+        cursor.execute("INSERT INTO city (id_city, city_name) VALUES (1, 'San Francisco')")
+        cursor.commit()
+    except:
+        print("No new cities inserted")
+
+    insert_new_york()
+    insert_san_francisco()
+
+
+def insert_new_york():
+    try:
+        f = pd.read_csv("../datasets/nyc-doh-covid-19_dataset_nyc-doh-covid-19-case-hosp-death.csv")
+        keep_col = ['DATE_OF_INTEREST', 'CASE_COUNT', 'HOSPITALIZED_COUNT', 'DEATH_COUNT']
+        new_f = f[keep_col]
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            query = "INSERT INTO covid19 (date, total_cases, hosp_patients, total_deaths, id_city, code, iso) " \
+                    "VALUES ('{0}', {1}, {2}, {3}, 0, 'NY', 'USA')"
+            cursor.execute(query.format(row[1], handleNan(row[2]), handleNan(row[3]), handleNan(row[4])))
+        cursor.commit()
+    except:
+        print("No new New York data inserted")
+
+
+def insert_san_francisco():
+    try:
+        f = pd.read_csv("../datasets/covid-19-sf-bay-area-tracker_dataset_covid-19-sf-bay-area-tracker.csv")
+        keep_col = ['date', 'sf_bay_area_total_cases', 'new_cases_in_sf_bay_area', 'growth_factor',
+                    'total_fatalities_in_sf_bay_area', 'new_fatalities_in_the_bay_area']
+        new_f = f[keep_col]
+        cursor = connection.cursor()
+        for row in new_f.itertuples():
+            if not isinstance(row[1], str) and math.isnan(row[1]):
+                continue
+
+            date = row[1].split(', ')[1].split(' ')
+            month = transform_month_name(date[0])
+            day = date[1]
+            new_date = "2020-" + month + "-" + day
+
+            query = "INSERT INTO covid19 (date, total_cases, new_cases, reproduction_rate, total_deaths, new_deaths, " \
+                    "id_city, code, iso) VALUES ('{0}', {1}, {2}, {3}, {4}, {5}, 1, 'CA', 'USA')"
+            cursor.execute(query.format(
+                new_date,
+                handleNan(row[2]),
+                handleNan(row[3]),
+                handleNan(row[4]),
+                handleNan(row[5]),
+                handleNan(row[6])
+            ))
+        cursor.commit()
+    except:
+        print("No new San Francisco data inserted")
+
+
 connection_string = 'DSN=Seminarska'
 connection = pyodbc.connect(connection_string)
 
+print("Inserting continents")
 insert_continents()
+print("Inserting countries")
 insert_countries()
+print("Inserting severities")
 insert_severity()
+print("Inserting unemployments")
 insert_unemployment()
+print("Inserting age groups")
 insert_age_group()
+print("Inserting state measures")
 insert_state_measurements()
+print("Inserting by age")
 insert_by_age()
+print("Inserting counties")
 insert_county()
+print("Inserting hospitals")
 insert_hospital()
+print("Inserting covid data")
 insert_covid_data()
+print("Inserting approval")
 insert_approval()
+print("Inserting cities")
+insert_city()
