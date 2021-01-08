@@ -3802,7 +3802,7 @@ DAT 1610033593</a:History>
 <o:Column Id="o88">
 <a:ObjectID>4E314179-C83E-4705-BB5A-309CBA16A8B0</a:ObjectID>
 <a:Name>total_deaths</a:Name>
-<a:Code>TOTAL_DEATHS__</a:Code>
+<a:Code>TOTAL_DEATHS</a:Code>
 <a:CreationDate>1610063706</a:CreationDate>
 <a:Creator>Miha</a:Creator>
 <a:ModificationDate>1610063706</a:ModificationDate>
@@ -4845,14 +4845,16 @@ DAT 1610063706</a:History>
 <a:Code>HOSPITAL_NAME</a:Code>
 <a:CreationDate>1610063706</a:CreationDate>
 <a:Creator>Miha</a:Creator>
-<a:ModificationDate>1610063706</a:ModificationDate>
+<a:ModificationDate>1610130104</a:ModificationDate>
 <a:Modifier>Miha</a:Modifier>
 <a:History>ORG {748EB19F-8FEC-4E6E-BD5A-8B6450DCCAE4}
 DAT 1610063706
 ORG {059B68DE-EA2C-4717-A838-01A104EBEC53}
-DAT 1610033593</a:History>
-<a:DataType>VARCHAR(128)</a:DataType>
-<a:Length>128</a:Length>
+DAT 1610033593
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VARCHAR(256)</a:DataType>
+<a:Length>256</a:Length>
 </o:Column>
 <o:Column Id="o158">
 <a:ObjectID>E97D7797-8A97-4E24-B3AE-E5F7DE279415</a:ObjectID>

@@ -148,7 +148,7 @@ create table BYGENDER (
    REPORT_DATE          DATE                 null,
    COVID_DEATHS_BY_GENDER INT4                 null,
    TOTAL_DEATHS_BY_GENDER INT4                 null,
-   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE)
+   constraint PK_BYGENDER primary key (ID_AGE_GROUP, CODE, GENDER)
 );
 
 /*==============================================================*/
@@ -156,7 +156,8 @@ create table BYGENDER (
 /*==============================================================*/
 create unique index BYGENDER_PK on BYGENDER (
 ID_AGE_GROUP,
-CODE
+CODE,
+GENDER
 );
 
 /*==============================================================*/
