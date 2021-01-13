@@ -1,6 +1,4 @@
 # SEMINARSKA NALOGA ZA PREDMET TEORIJA UPRAVLJANJA PODATKOV  
-## Namestitev
-  - Extract datasources.7z before usage
 ## Podatkovne zbirke  
   - All reported cases  
   https://aws.amazon.com/marketplace/pp/prodview-3b32sjummof5s?qid=1610023807511&sr=0-8&ref_=srh_res_product_title  
